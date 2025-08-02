@@ -11,7 +11,7 @@ template <typename KeyType, typename ValueType, typename Comparator>
 class PersistentMap {
 private:
   std::map<KeyType, ValueType, Comparator> content_;
-  std::mutex mapLock_;
+  std::mutex map_lock_;
   const std::string file_;
 
 public:
@@ -33,7 +33,7 @@ template <typename KeyType, typename ValueType, typename Comparator>
 PersistentMap<KeyType, ValueType, Comparator>::PersistentMap(
     const std::string &name)
     : file_(name) {
-  std::lock_guard<std::mutex> lock(mapLock_);
+  std::lock_guard<std::mutex> lock(map_lock_);
 
   std::fstream pointer =
       std::fstream(file_, std::ios::binary, std::ios::in | std::ios::out);
@@ -70,7 +70,7 @@ PersistentMap<KeyType, ValueType, Comparator>::PersistentMap(
 
 template <typename KeyType, typename ValueType, typename Comparator>
 PersistentMap<KeyType, ValueType, Comparator>::~PersistentMap() {
-  std::lock_guard<std::mutex> lock(mapLock_);
+  std::lock_guard<std::mutex> lock(map_lock_);
 
   std::fstream pointer = std::fstream(file_, std::ios::binary, std::ios::out);
 
@@ -99,7 +99,7 @@ PersistentMap<KeyType, ValueType, Comparator>::~PersistentMap() {
 template <typename KeyType, typename ValueType, typename Comparator>
 auto PersistentMap<KeyType, ValueType, Comparator>::search(
     const KeyType &key) const -> std::pair<ValueType, bool> {
-  std::lock_guard<std::mutex> lock(mapLock_);
+  std::lock_guard<std::mutex> lock(map_lock_);
   auto iter = content_.find(key);
   if (iter == content_.end()) {
     return std::pair<ValueType, bool>(ValueType(), false);
@@ -110,7 +110,7 @@ auto PersistentMap<KeyType, ValueType, Comparator>::search(
 template <typename KeyType, typename ValueType, typename Comparator>
 auto PersistentMap<KeyType, ValueType, Comparator>::insert(
     const KeyType &key, const ValueType &value) -> bool {
-  std::lock_guard<std::mutex> lock(mapLock_);
+  std::lock_guard<std::mutex> lock(map_lock_);
   bool flag = false;
   if (content_.count(key) == 0) {
     content_[key] = value;
@@ -122,7 +122,7 @@ auto PersistentMap<KeyType, ValueType, Comparator>::insert(
 template <typename KeyType, typename ValueType, typename Comparator>
 auto PersistentMap<KeyType, ValueType, Comparator>::erase(const KeyType &key)
     -> bool {
-  std::lock_guard<std::mutex> lock(mapLock_);
+  std::lock_guard<std::mutex> lock(map_lock_);
   bool flag = false;
   if (content_.count(key) != 0) {
     content_.erase(key);
