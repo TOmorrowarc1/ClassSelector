@@ -8,7 +8,7 @@ enum class LogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
 
 class Logger {
 private:
-  FILE *log_file_;
+  std::fstream log_file_;
   LogLevel level_;
   std::mutex logger_lock_;
 
@@ -18,7 +18,7 @@ public:
   ~Logger();
 
   void setLevel(LogLevel level);
-  
-  void printLog(const std::string &content);
+
+  void printLog(const std::string &content, LogLevel level);
 };
 #endif
