@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 
-std::string levelToString(LogLevel level);
+auto levelToString(LogLevel level) -> std::string;
 
 Logger::Logger(const std::string &name) {
   log_file_.open(name, std::ios::out | std::ios::trunc);
@@ -26,7 +26,7 @@ void Logger::printLog(const std::string &message, LogLevel level) {
   }
 }
 
-std::string levelToString(LogLevel level) {
+auto levelToString(LogLevel level) -> std::string {
   std::string result;
   switch (level) {
   case LogLevel::DEBUG:
