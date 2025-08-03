@@ -179,14 +179,35 @@ public:
 
 template <typename KeyType, typename ValueType>
 auto ConcurrentMap<KeyType, ValueType>::search(const KeyType &key) const
-    -> std::pair<ValueType, bool> {}
+    -> std::pair<ValueType, bool> {
+  std::lock_guard<std::mutex> lock(map_lock_);
+  auto iter = content_.find(key);
+  if (iter == content_.end()) {
+    return std::pair<ValueType, bool>(ValueType(), false);
+  }
+  return std::pair<ValueType, bool>(iter->second, true);
+}
 
 template <typename KeyType, typename ValueType>
 auto ConcurrentMap<KeyType, ValueType>::insert(const KeyType &key,
                                                const ValueType &value) -> bool {
-
+  std::lock_guard<std::mutex> lock(map_lock_);
+  bool flag = false;
+  if (content_.count(key) == 0) {
+    content_[key] = value;
+    flag = true;
+  }
+  return flag;
 }
 
 template <typename KeyType, typename ValueType>
-auto ConcurrentMap<KeyType, ValueType>::erase(const KeyType &key) -> bool {}
+auto ConcurrentMap<KeyType, ValueType>::erase(const KeyType &key) -> bool {
+  std::lock_guard<std::mutex> lock(map_lock_);
+  bool flag = false;
+  if (content_.count(key) != 0) {
+    content_.erase(key);
+    flag = true;
+  }
+  return flag;
+}
 #endif
