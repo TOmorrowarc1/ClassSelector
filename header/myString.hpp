@@ -46,14 +46,15 @@ public:
   auto is_clear() const -> bool { return data[0] == '\0'; }
   void clear() { data[0] = '\0'; }
 
-  auto FixedString<MaxLength>::Hash() -> uint32_t;
+  auto FixedString<MaxLength>::Hash() const -> uint32_t;
 
   auto compare(const FixedString &other) const -> int32_t {
     return strcmp(data, other.data);
   }
 };
 
-template <int32_t MaxLength> auto FixedString<MaxLength>::Hash() -> uint32_t {
+template <int32_t MaxLength>
+auto FixedString<MaxLength>::Hash() const -> uint32_t {
   const uint32_t seed1 = 0xcbf29ce484222325; // FNV-1a 初始种子
   const uint32_t seed2 = 0x14650FB0739D0383; // 额外种子增强随机性
   uint32_t hash1 = seed1;

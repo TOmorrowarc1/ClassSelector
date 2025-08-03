@@ -1,5 +1,6 @@
 #ifndef COREINFO_HPP
 #define COREINFO_HPP
+#include "logger.hpp"
 #include <stdint.h>
 #include <string>
 
@@ -13,5 +14,7 @@ extern std::string file_name_account;
 extern std::string file_name_course_static;
 extern std::string file_name_course_remain;
 extern std::string file_name_course_enrol;
+
+extern Logger logger;
 
 #endif

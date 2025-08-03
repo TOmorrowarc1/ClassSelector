@@ -17,21 +17,15 @@ auto signUp(const UserSession &session, const studentInfoOut &info,
             int32_t priviledge) -> bool;
 
 // Administer remove a student from the list.
-auto removeUser(const studentInfoOut &info) -> bool;
-
-// Allow the administer get all uid for a class;
-auto fetchUserClass(const studentInfoOut &class_info) -> std::vector<int32_t>;
+auto removeUser(const UserSession &session, const studentInfoOut &info) -> bool;
 
 // Allow the administer get every uid.
-auto fetchUserAll() -> std::vector<int32_t>;
+auto fetchUserAll(const UserSession &session) -> std::vector<int32_t>;
 
 // Everyone has logged in can modify his password.
 auto modifyPassword(const UserSession &session, int32_t new_password) -> bool;
 
-// Users log in.
+// Users try to log in.
 auto logIn(const studentInfoOut &info) -> std::pair<bool, UserSession>;
-
-// Users log out.
-auto logOut(const UserSession &session) -> bool;
 
 #endif

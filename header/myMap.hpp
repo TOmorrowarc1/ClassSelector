@@ -27,6 +27,12 @@ public:
   auto insert(const KeyType &key, const ValueType &value) -> bool;
   // return "true" if the key exists.
   auto erase(const KeyType &key) -> bool;
+  // return a vector contain all keys between lhs and rhs.
+  auto traverseKey(const KeyType &lhs, const KeyType &rhs)
+      -> std::vector<KeyType>;
+  // return a vector contain all values whose key is between lhs and rhs.
+  auto traverseValue(const KeyType &lhs, const KeyType &rhs)
+      -> std::vector<ValueType>;
 };
 
 template <typename KeyType, typename ValueType, typename Comparator>
@@ -129,6 +135,32 @@ auto PersistentMap<KeyType, ValueType, Comparator>::erase(const KeyType &key)
     flag = true;
   }
   return flag;
+}
+
+template <typename KeyType, typename ValueType, typename Comparator>
+auto PersistentMap<KeyType, ValueType, Comparator>::traverseKey(
+    const KeyType &lhs, const KeyType &rhs) -> std::vector<KeyType> {
+  std::vector<KeyType> result;
+  std::lock_guard<std::mutex> lock(map_lock_);
+  auto iter = content_.find(lhs);
+  while (Comparator(iter->first, rhs) && iter != content_.cend()) {
+    result.push_back(iter->first);
+    ++iter;
+  }
+  return result;
+}
+
+template <typename KeyType, typename ValueType, typename Comparator>
+auto PersistentMap<KeyType, ValueType, Comparator>::traverseValue(
+    const KeyType &lhs, const KeyType &rhs) -> std::vector<ValueType> {
+  std::vector<ValueType> result;
+  std::lock_guard<std::mutex> lock(map_lock_);
+  auto iter = content_.find(lhs);
+  while (Comparator(iter->second, rhs) && iter != content_.cend()) {
+    result.push_back(iter->second);
+    ++iter;
+  }
+  return result;
 }
 
 #endif
