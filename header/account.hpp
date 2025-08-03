@@ -19,7 +19,7 @@ auto signUp(const UserSession &session, const studentInfoOut &info,
 // Administer remove a student from the list.
 auto removeUser(const UserSession &session, const studentInfoOut &info) -> bool;
 
-// Allow the administer get every uid.
+// Allow the administer to get every uid.
 auto fetchUserAll(const UserSession &session) -> std::vector<int32_t>;
 
 // Everyone has logged in can modify his password.
