@@ -92,4 +92,3 @@ auto logIn(const studentInfoOut &info) -> std::pair<bool, UserSession> {
   }
   return std::pair<bool, UserSession>(userInfo.second, result);
 }
-

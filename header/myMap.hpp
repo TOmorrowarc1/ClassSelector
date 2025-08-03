@@ -163,4 +163,30 @@ auto PersistentMap<KeyType, ValueType, Comparator>::traverseValue(
   return result;
 }
 
+template <typename KeyType, typename ValueType> class ConcurrentMap {
+private:
+  std::map<KeyType, ValueType> content_;
+  std::mutex map_lock_;
+
+public:
+  // search for value following the key.
+  auto search(const KeyType &key) const -> std::pair<ValueType, bool>;
+  // return "false" if there is no such key, vice versa.
+  auto insert(const KeyType &key, const ValueType &value) -> bool;
+  // return "true" if the key exists.
+  auto erase(const KeyType &key) -> bool;
+};
+
+template <typename KeyType, typename ValueType>
+auto ConcurrentMap<KeyType, ValueType>::search(const KeyType &key) const
+    -> std::pair<ValueType, bool> {}
+
+template <typename KeyType, typename ValueType>
+auto ConcurrentMap<KeyType, ValueType>::insert(const KeyType &key,
+                                               const ValueType &value) -> bool {
+
+}
+
+template <typename KeyType, typename ValueType>
+auto ConcurrentMap<KeyType, ValueType>::erase(const KeyType &key) -> bool {}
 #endif

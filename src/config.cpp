@@ -1,4 +1,4 @@
-#include "coreinfo.hpp"
+#include "config.hpp"
 
 std::string file_name_logger = "logger_message";
 std::string file_name_account = "account_info";

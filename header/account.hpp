@@ -1,6 +1,6 @@
 #ifndef ACCOUNT_HPP
 #define ACCOUNT_HPP
-#include "coreinfo.hpp"
+#include "config.hpp"
 #include <vector>
 
 struct studentInfoOut {

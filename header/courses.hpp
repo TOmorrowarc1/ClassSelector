@@ -1,6 +1,6 @@
 #ifndef COURSE_HPP
 #define COURSE_HPP
-#include "coreinfo.hpp"
+#include "config.hpp"
 
 struct courseInfoOut {
   std::string name;
